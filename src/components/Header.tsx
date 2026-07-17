@@ -1,15 +1,8 @@
 'use client';
-import React, { useState } from 'react';
-import { Search, Bell, Settings, Lock, ChevronDown, UserCircle } from 'lucide-react';
+import React from 'react';
+import { Search, Bell, Settings, ShieldCheck } from 'lucide-react';
 
-interface HeaderProps {
-  currentRole: string;
-  onRoleChange: (role: string) => void;
-}
-
-export default function Header({ currentRole, onRoleChange }: HeaderProps) {
-  const [isOpen, setIsOpen] = useState(false);
-
+export default function Header() {
   return (
     <header className="h-16 bg-white border-b border-gray-200 px-8 flex items-center justify-between sticky top-0 z-10">
       <div className="flex items-center gap-4 flex-1">
@@ -17,45 +10,19 @@ export default function Header({ currentRole, onRoleChange }: HeaderProps) {
           <Search className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400" size={18} />
           <input 
             type="text" 
-            placeholder="Search clients, AMCs, or trade requests..." 
+            placeholder="Search firm-wide emails, AMCs, or flags..." 
             className="w-full bg-gray-50 border border-gray-200 rounded-lg pl-10 pr-4 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:bg-white transition-all"
           />
         </div>
         <div className="flex items-center gap-2 text-xs font-medium text-green-600 bg-green-50 px-3 py-1.5 rounded-full border border-green-100">
-          <span className="relative flex h-2 w-2">
-            <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-green-400 opacity-75"></span>
-            <span className="relative inline-flex rounded-full h-2 w-2 bg-green-500"></span>
-          </span>
-          FINRA Archive Active
+          <ShieldCheck size={14} />
+          SEC 17a-4 Archive Synced
         </div>
       </div>
 
       <div className="flex items-center gap-6">
-        
-        {/* Role Switcher */}
-        <div className="relative">
-          <button 
-            onClick={() => setIsOpen(!isOpen)}
-            className="flex items-center gap-2 bg-gray-50 hover:bg-gray-100 border border-gray-200 px-3 py-1.5 rounded-lg text-sm font-medium transition-colors"
-          >
-            <UserCircle size={16} className="text-gray-500" />
-            {currentRole}
-            <ChevronDown size={14} className="text-gray-500" />
-          </button>
-          
-          {isOpen && (
-            <div className="absolute top-full right-0 mt-1 w-48 bg-white border border-gray-200 rounded-lg shadow-lg py-1 z-50">
-              {['Admin (Partner)', 'Sales RM', 'AMC Contact'].map(r => (
-                <button 
-                  key={r}
-                  onClick={() => { onRoleChange(r); setIsOpen(false); }}
-                  className="w-full text-left px-4 py-2 text-sm text-gray-700 hover:bg-blue-50 hover:text-blue-700"
-                >
-                  View as: {r}
-                </button>
-              ))}
-            </div>
-          )}
+        <div className="text-sm font-medium text-gray-700 bg-gray-100 px-3 py-1.5 rounded-lg">
+          Firm Admin
         </div>
 
         <button className="text-gray-500 hover:text-gray-700 relative">
