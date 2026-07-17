@@ -1,8 +1,12 @@
-import React, { useState } from 'react';
+'use client';
+import React from 'react';
 import { Mail, LayoutDashboard, Users, Activity, MessageSquare, Plus, FileText, BarChart3 } from 'lucide-react';
 import clsx from 'clsx';
+import Link from 'next/link';
+import { usePathname } from 'next/navigation';
 
 export default function Sidebar({ onDropToTeamMember }: { onDropToTeamMember?: (emailId: string, memberId: string) => void }) {
+  const pathname = usePathname();
   const teamMembers = [
     { id: '1', name: 'Nirmal Bansal', initials: 'NB', color: 'bg-purple-100 text-purple-700' },
     { id: '2', name: 'Anjali Awasthi', initials: 'AA', color: 'bg-orange-100 text-orange-700' },
@@ -16,18 +20,18 @@ export default function Sidebar({ onDropToTeamMember }: { onDropToTeamMember?: (
           <Mail size={18} strokeWidth={2.5} />
         </div>
         <span className="text-xl font-bold text-gray-900 tracking-tight">
-          SuperMail
+          Varun_Mail
         </span>
       </div>
       
       <div className="flex-1 overflow-y-auto px-4 flex flex-col gap-1 pb-6">
-        <NavItem icon={Mail} label="Inbox" active badge="12" />
-        <NavItem icon={MessageSquare} label="Snoozed" />
-        <NavItem icon={FileText} label="Done" />
+        <NavItem href="/" icon={Mail} label="Inbox" active={pathname === '/'} badge="12" />
+        <NavItem href="/" icon={MessageSquare} label="Snoozed" active={false} />
+        <NavItem href="/" icon={FileText} label="Done" active={false} />
         
         <div className="text-xs font-bold text-gray-400 uppercase tracking-wider mb-2 mt-8 px-3">Insights</div>
-        <NavItem icon={BarChart3} label="Analytics" />
-        <NavItem icon={Activity} label="Response Times" />
+        <NavItem href="/analytics" icon={BarChart3} label="Analytics" active={pathname === '/analytics'} />
+        <NavItem href="/analytics" icon={Activity} label="Response Times" active={false} />
         
         <div className="text-xs font-bold text-gray-400 uppercase tracking-wider mb-2 mt-8 px-3 flex justify-between items-center">
           Team Assignment
@@ -54,15 +58,15 @@ export default function Sidebar({ onDropToTeamMember }: { onDropToTeamMember?: (
             </div>
           ))}
         </div>
-        <p className="px-3 text-xs text-gray-400 mt-2 italic">Drag emails here to assign/forward.</p>
+        <p className="px-3 text-xs text-gray-400 mt-2 italic">Drag emails here to assign.</p>
       </div>
     </aside>
   );
 }
 
-function NavItem({ icon: Icon, label, active = false, badge }: { icon: any, label: string, active?: boolean, badge?: string }) {
+function NavItem({ href, icon: Icon, label, active = false, badge }: { href: string, icon: any, label: string, active?: boolean, badge?: string }) {
   return (
-    <a href="#" className={clsx(
+    <Link href={href} className={clsx(
       "flex items-center justify-between px-3 py-2 rounded-lg transition-colors group",
       active ? "bg-white border border-gray-200 text-gray-900 shadow-sm font-medium" : "text-gray-600 hover:bg-gray-100"
     )}>
@@ -75,6 +79,6 @@ function NavItem({ icon: Icon, label, active = false, badge }: { icon: any, labe
           {badge}
         </span>
       )}
-    </a>
+    </Link>
   );
 }
