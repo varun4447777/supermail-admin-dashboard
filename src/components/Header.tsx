@@ -2,8 +2,12 @@
 import React, { useState } from 'react';
 import { Search, Bell, Settings, Lock, ChevronDown, UserCircle } from 'lucide-react';
 
-export default function Header() {
-  const [role, setRole] = useState('Admin (Partner)');
+interface HeaderProps {
+  currentRole: string;
+  onRoleChange: (role: string) => void;
+}
+
+export default function Header({ currentRole, onRoleChange }: HeaderProps) {
   const [isOpen, setIsOpen] = useState(false);
 
   return (
@@ -35,7 +39,7 @@ export default function Header() {
             className="flex items-center gap-2 bg-gray-50 hover:bg-gray-100 border border-gray-200 px-3 py-1.5 rounded-lg text-sm font-medium transition-colors"
           >
             <UserCircle size={16} className="text-gray-500" />
-            {role}
+            {currentRole}
             <ChevronDown size={14} className="text-gray-500" />
           </button>
           
@@ -44,7 +48,7 @@ export default function Header() {
               {['Admin (Partner)', 'Sales RM', 'AMC Contact'].map(r => (
                 <button 
                   key={r}
-                  onClick={() => { setRole(r); setIsOpen(false); }}
+                  onClick={() => { onRoleChange(r); setIsOpen(false); }}
                   className="w-full text-left px-4 py-2 text-sm text-gray-700 hover:bg-blue-50 hover:text-blue-700"
                 >
                   View as: {r}
